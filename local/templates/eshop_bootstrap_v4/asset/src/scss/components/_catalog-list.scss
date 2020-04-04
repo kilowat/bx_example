@@ -1,0 +1,28 @@
+.catalog-component{
+    .catalog-list{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .catalog-item{
+        display: block;
+        margin-left: 10px;
+        margin-right: 10px;
+        width: calc(25% - 20px);
+        padding: 10px;
+        margin-bottom: 12px;
+        border: 1px solid #ccc;
+    }
+    .item-name{
+        margin-bottom: 5px;
+    }
+    .item-pic{
+        .pic-bg{
+            height: 180px;
+            width: 100%;
+            background-size: contain;
+            background-position: center;
+            display: inline-block;
+            background-repeat: no-repeat;
+        }
+    }
+}
