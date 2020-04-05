@@ -7,6 +7,5 @@ $this->setFrameMode(true);
 ?>
 
 <smart-filter 
-	result_json='<?=Json::encode($arResult)?>'
 	params_json='<?=Json::encode($arParams)?>'>
 </smart-filter>

@@ -145,31 +145,17 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
   name: 'smart-filter',
   data(){
-    let price = false;
-    let res = JSON.parse(this.result_json);
-    
     let params = JSON.parse(this.params_json);
-   
-    for(let index in res.ITEMS){
-      if(res.ITEMS[index].PRICE != undefined)
-      {
-        price = res.ITEMS[index];
-        break;
-      }
-    }
-
-    let curMinPrice = price.VALUES.MIN.HTML_VALUE ? parseInt(price.VALUES.MIN.HTML_VALUE) : price.VALUES.MIN.VALUE;
-    let curMaxPrice = price.VALUES.MAX.HTML_VALUE ? parseInt(price.VALUES.MAX.HTML_VALUE) : price.VALUES.MAX.VALUE;
  
     return {
-      arResult:res,
+      arResult:{},
       arParams: params,
-      price: price,
-      valuePrice: [curMinPrice, curMaxPrice],
+      price: false,
+      valuePrice: [],
       loading: false,
     }
   },
-  props: ['result_json', 'params_json'],
+  props: ['params_json'],
   components: {
     VueSlider,
     Loading    
@@ -201,10 +187,23 @@ export default {
     },
   },
   mounted(){
-  
+    this.loadData();
   },
   watch: {
-
+    arResult(val){
+      let price = false;
+      for(let index in val.ITEMS){
+        if(val.ITEMS[index].PRICE != undefined)
+        {
+          price = val.ITEMS[index];
+          break;
+        }
+      }
+      this.price = price;
+      let curMinPrice = price.VALUES.MIN.HTML_VALUE ? parseInt(price.VALUES.MIN.HTML_VALUE) : price.VALUES.MIN.VALUE;
+      let curMaxPrice = price.VALUES.MAX.HTML_VALUE ? parseInt(price.VALUES.MAX.HTML_VALUE) : price.VALUES.MAX.VALUE;
+      this.valuePrice = [curMinPrice, curMaxPrice];
+    },
   },
   methods:{
     getFormParams(){
@@ -235,15 +234,23 @@ export default {
     resetFilter(){
       location.href = this.delLink;
     },
+    loadData(){
+      let params = '?ajax=y&SECTION_CODE_PATH=' + this.arParams.SECTION_CODE_PATH;
+      let url = this.arParams.FILTER_AJAX_URL + params;
+      this.ajaxRequest(url);
+    },
     updateData(){
-      if(this.loading) return false;
-
-      this.loading = true;
       let params = '?ajax=y' + this.getFormParams();
+      let url = this.arParams.FILTER_AJAX_URL + params;
+      this.ajaxRequest(url);
+    },
+    ajaxRequest(url){
+      if(this.loading) return false;
+      this.loading = true;
 
       axios({
         method: 'get',
-        url: this.arParams.FILTER_AJAX_URL + params,
+        url: url,
       })
       .then((response)=>{
           this.arResult = response.data;
@@ -253,6 +260,7 @@ export default {
           this.loading = false;
       }); 
     },
+
     toggleProp(e){
       let $el = $(e.target);
       let $parent = $el.parent();
