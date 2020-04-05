@@ -1,5 +1,5 @@
 <template>
-  <div class="smart-filter">
+  <div class="smart-filter" v-cloak>
     <loading :active.sync="loading" :is-full-page="false"></loading>
     <form name="smart-filter" id="filter-form" ref="form" :action="arResult.FORM_ACTION" method="get" class="smart-filter-form">
       <input type="hidden" v-for="input in arResult.HIDDEN" 
@@ -126,7 +126,7 @@
           </div>
         </div>
       </div>
-      <div class="button-row">
+      <div class="button-row" v-if="Object.keys(arResult).length > 0">
         <button type="button" v-bind:disabled="loading" name="set_filter" @click="setFilter">Применить</button>
         <button type="button" v-bind:disabled="loading" name="del_filter" @click="resetFilter">Сбросить</button>
       </div>
@@ -279,6 +279,9 @@ export default {
 </script>
 
 <style scoped >
+  [v-cloak]{
+   
+  }
   .vue-slider{
     margin-top: 8px;
   }

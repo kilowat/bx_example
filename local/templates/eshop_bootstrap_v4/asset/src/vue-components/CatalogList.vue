@@ -26,12 +26,17 @@
         </div>
       </div>
 
-      <div class="catalog-list">
+      <slot name="catalog-list" v-if="items.length == 0" >
+
+      </slot>
+
+      <div class="catalog-list" v-if="items.length > 0">
         <catalog-item 
           v-for="item in items" 
           :key="item.ID" 
           :item="item" />
       </div>
+
 
         <pagination 
           v-if="endpage > 1"
@@ -53,7 +58,7 @@ import Pagenation from './Pagination';
 export default {
     name: "catalog-list",
     props:[
-      'items_json',
+      'rendered',
       'ajax_url', 
       'catalog_url',
       'sort_params',
@@ -62,10 +67,9 @@ export default {
       'navnum'
     ],
     data(){
-      let res_items = JSON.parse(this.items_json);
       let sort_params = this.parseSortParams(JSON.parse(this.sort_params));
       return{
-        items: res_items,
+        items: [],
         sortParams: sort_params,
         loading: false,
       }
@@ -77,6 +81,12 @@ export default {
     },
     mounted(){
       EventBus.$on('set-filter', this.onSetFilter);
+      
+      let listNode = document.querySelector('.catalog-list')
+     
+      if(listNode != undefined){
+          listNode.style.opacity = "1";
+      }
     },
     methods:{
       onPagenLinkClick(number){
@@ -138,10 +148,7 @@ export default {
           url: ajaxUrl
         })
         .then((response)=>{
-          let html = document.createRange().createContextualFragment(response.data);
-          let catalogList = html.querySelector('catalog-list');
-          let catalogResult = catalogList.getAttribute('items_json');
-          this.items = JSON.parse(catalogResult);
+          this.items = response.data;
           this.loading = false;
         })
         .catch((response)=>{
