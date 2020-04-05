@@ -14,11 +14,11 @@ $this->setFrameMode(true);
     navpagenomer="<?=$arResult["NAV_RESULT"]->NavPageNomer ?>"
     navnum="<?=$arResult["NAV_RESULT"]->NavNum ?>"
     >
-    <div slot="catalog-list-slot" class="catalog-list">
+    <div class="catalog-list">
         <?foreach($arResult["ITEMS"] as $arItem):?>
             <div class="catalog-item"> 
-                <a class="item-name" slot="item-name" href="<?=$arItem["DETAIL_PAGE_URL"]?>" title="<?=$arItem["NAME"]?>"><?=$arItem["NAME"]?></a>
-                <a class="item-pic" slot="item-pic" href="<?=$arItem["DETAIL_PAGE_URL"]?>" title="<?=$arItem["NAME"]?>">
+                <a class="item-name" href="<?=$arItem["DETAIL_PAGE_URL"]?>" title="<?=$arItem["NAME"]?>"><?=$arItem["NAME"]?></a>
+                <a class="item-pic"  href="<?=$arItem["DETAIL_PAGE_URL"]?>" title="<?=$arItem["NAME"]?>">
                     <span class="pic-bg" role="img" style="background-image:url(<?=$arItem['PREVIEW_PICTURE']['SRC']?>)"></span>
                 </a>
             </div>

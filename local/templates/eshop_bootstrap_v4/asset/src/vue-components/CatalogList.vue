@@ -26,12 +26,12 @@
         </div>
       </div>
 
-      <slot name="catalog-list-slot" class="catalog-list">
+      <div class="catalog-list">
         <catalog-item 
           v-for="item in items" 
           :key="item.ID" 
           :item="item" />
-      </slot>
+      </div>
 
         <pagination 
           v-if="endpage > 1"
@@ -53,6 +53,7 @@ import Pagenation from './Pagination';
 export default {
     name: "catalog-list",
     props:[
+      'items_json',
       'ajax_url', 
       'catalog_url',
       'sort_params',
@@ -61,11 +62,10 @@ export default {
       'navnum'
     ],
     data(){
-     // let res_items = JSON.parse(this.items_json);
+      let res_items = JSON.parse(this.items_json);
       let sort_params = this.parseSortParams(JSON.parse(this.sort_params));
-      let items = [];
       return{
-        items: items,
+        items: res_items,
         sortParams: sort_params,
         loading: false,
       }
@@ -135,7 +135,7 @@ export default {
 
         axios({
           method: 'get',
-          url: url
+          url: ajaxUrl
         })
         .then((response)=>{
           let html = document.createRange().createContextualFragment(response.data);
