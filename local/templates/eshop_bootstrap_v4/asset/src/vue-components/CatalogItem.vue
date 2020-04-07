@@ -12,6 +12,10 @@
         </a>
       </slot>
     </div>
+    <div class="">
+      
+    </div>
+
   </div>
 </template>
 
@@ -23,6 +27,7 @@ export default {
       type: Object,
       default () {
         return {
+          ID: "",
           DETAIL_PAGE_URL: "",
           NAME: "",
           PREVIEW_PICTURE:{SRC: ""}

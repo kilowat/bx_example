@@ -65,24 +65,14 @@ $curPage = $APPLICATION->GetCurPage(true);
 				</div>
 
 				<div class="col-auto d-none d-md-block bx-header-personal">
-					<?$APPLICATION->IncludeComponent(
-						"bitrix:sale.basket.basket.line",
-						"bootstrap_v4",
-						array(
-							"PATH_TO_BASKET" => SITE_DIR."personal/cart/",
-							"PATH_TO_PERSONAL" => SITE_DIR."personal/",
-							"SHOW_PERSONAL_LINK" => "N",
-							"SHOW_NUM_PRODUCTS" => "Y",
-							"SHOW_TOTAL_PRICE" => "Y",
-							"SHOW_PRODUCTS" => "N",
-							"POSITION_FIXED" =>"N",
-							"SHOW_AUTHOR" => "Y",
-							"PATH_TO_REGISTER" => SITE_DIR."login/",
-							"PATH_TO_PROFILE" => SITE_DIR."personal/"
-						),
-						false,
-						array()
-					);?>
+				<?$APPLICATION->IncludeComponent(
+	"extend.mode:basket", 
+	"smallbasket", 
+	array(
+		"COMPONENT_TEMPLATE" => "smallbasket"
+	),
+	false
+);?>
 				</div>
 
 				<div class="col bx-header-contact">
